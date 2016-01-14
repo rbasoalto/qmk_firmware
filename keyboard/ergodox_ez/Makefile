@@ -28,7 +28,10 @@ TARGET_DIR = .
 # # project specific files
 SRC = ergodox_ez.c \
 	  twimaster.c \
-	  matrix.c
+	  matrix.c \
+      led.c
+
+OPT_DEFS += -DUSE_CUSTOM_LED_SET
 
 ifdef KEYMAP
     SRC := keymaps/keymap_$(KEYMAP).c $(SRC)

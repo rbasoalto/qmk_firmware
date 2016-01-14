@@ -15,28 +15,21 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <avr/io.h>
-#include "stdint.h"
+#include "ergodox_ez.h"
 #include "led.h"
 
-
-#ifndef USE_CUSTOM_LED_SET
+#ifdef USE_CUSTOM_LED_SET
 
 void led_set(uint8_t usb_led)
 {
-    // // Using PE6 Caps Lock LED
-    // if (usb_led & (1<<USB_LED_CAPS_LOCK))
-    // {
-    //     // Output high.
-    //     DDRE |= (1<<6);
-    //     PORTE |= (1<<6);
-    // }
-    // else
-    // {
-    //     // Output low.
-    //     DDRE &= ~(1<<6);
-    //     PORTE &= ~(1<<6);
-    // }
+    if (usb_led & (1<<USB_LED_CAPS_LOCK))
+    {
+        ergodox_right_led_3_on();
+    }
+    else
+    {
+        ergodox_right_led_3_off();
+    }
 }
 
 #endif
