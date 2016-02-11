@@ -37,7 +37,8 @@ static host_driver_t driver = {
         send_keyboard,
         send_mouse,
         send_system,
-        send_consumer
+        send_consumer,
+        send_apple
 };
 
 host_driver_t *pjrc_driver(void)
@@ -72,5 +73,12 @@ static void send_consumer(uint16_t data)
 {
 #ifdef EXTRAKEY_ENABLE
     usb_extra_consumer_send(data);
+#endif
+}
+
+static void send_apple(uint16_t data)
+{
+#ifdef EXTRAKEY_ENABLE
+    usb_extra_apple_send(data);
 #endif
 }

@@ -59,6 +59,11 @@ int8_t usb_extra_send(uint8_t report_id, uint16_t data)
 	return 0;
 }
 
+int8_t usb_extra_apple_send(uint16_t bits)
+{
+	return usb_extra_send(REPORT_ID_APPLE, bits);
+}
+
 int8_t usb_extra_consumer_send(uint16_t bits)
 {
 	return usb_extra_send(REPORT_ID_CONSUMER, bits);

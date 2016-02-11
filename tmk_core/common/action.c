@@ -190,6 +190,13 @@ void process_action(keyrecord_t *record)
                         host_consumer_send(0);
                     }
                     break;
+                case PAGE_APPLE:
+                    if (event.pressed) {
+                        host_apple_send(action.usage.code);
+                    } else {
+                        host_apple_send(0);
+                    }
+                    break;
             }
             break;
 #endif
@@ -418,6 +425,9 @@ void register_code(uint8_t code)
     else if IS_CONSUMER(code) {
         host_consumer_send(KEYCODE2CONSUMER(code));
     }
+    else if IS_APPLE(code) {
+        host_apple_send(KEYCODE2APPLE(code));
+    }
 }
 
 void unregister_code(uint8_t code)
@@ -472,6 +482,9 @@ void unregister_code(uint8_t code)
     }
     else if IS_CONSUMER(code) {
         host_consumer_send(0);
+    }
+    else if IS_APPLE(code) {
+        host_apple_send(0);
     }
 }
 

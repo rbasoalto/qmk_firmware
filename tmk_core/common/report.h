@@ -71,6 +71,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SYSTEM_SLEEP            0x0082
 #define SYSTEM_WAKE_UP          0x0083
 
+/* Apple proprietary page (0xff) */
+#define APPLE_KEYBOARDFN            0x0003
+#define APPLE_BRIGHTNESSUP          0x0004
+#define APPLE_BRIGHTNESSDOWN        0x0005
+#define APPLE_VIDEOMIRROR           0x0006
+#define APPLE_ILLUMINATIONTOGGLE    0x0007
+#define APPLE_ILLUMINATIONUP        0x0008
+#define APPLE_ILLUMINATIONDOWN      0x0009
+#define APPLE_RESERVED_MOUSEDATA    0x00c0
 
 /* key report size(NKRO or boot mode) */
 #if defined(PROTOCOL_PJRC) && defined(NKRO_ENABLE)
@@ -174,7 +183,19 @@ typedef struct {
     (key == KC_WWW_FORWARD      ?  AC_FORWARD : \
     (key == KC_WWW_STOP         ?  AC_STOP : \
     (key == KC_WWW_REFRESH      ?  AC_REFRESH : \
-    (key == KC_WWW_FAVORITES    ?  AC_BOOKMARKS : 0)))))))))))))))))))))
+    (key == KC_WWW_FAVORITES    ?  AC_BOOKMARKS : \
+    (key == KC_SCREEN_BRIGHTNESS_UP   ? SCREEN_BRIGHTNESS_UP : \
+    (key == KC_SCREEN_BRIGHTNESS_DOWN ? SCREEN_BRIGHTNESS_DOWN : 0)))))))))))))))))))))))
+
+#define KEYCODE2APPLE(key) \
+    (key == KC_APPLE_KEYBOARDFN          ? APPLE_KEYBOARDFN : \
+    (key == KC_APPLE_BRIGHTNESSUP        ? APPLE_BRIGHTNESSUP : \
+    (key == KC_APPLE_BRIGHTNESSDOWN      ? APPLE_BRIGHTNESSDOWN : \
+    (key == KC_APPLE_VIDEOMIRROR         ? APPLE_VIDEOMIRROR : \
+    (key == KC_APPLE_ILLUMINATIONTOGGLE  ? APPLE_ILLUMINATIONTOGGLE : \
+    (key == KC_APPLE_ILLUMINATIONUP      ? APPLE_ILLUMINATIONUP : \
+    (key == KC_APPLE_ILLUMINATIONDOWN    ? APPLE_ILLUMINATIONDOWN : \
+    (key == KC_APPLE_RESERVED_MOUSEDATA  ? APPLE_RESERVED_MOUSEDATA : 0 ))))))))
 
 #ifdef __cplusplus
 }

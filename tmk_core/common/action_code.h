@@ -223,10 +223,12 @@ enum mods_codes {
  */
 enum usage_pages {
     PAGE_SYSTEM,
-    PAGE_CONSUMER
+    PAGE_CONSUMER,
+    PAGE_APPLE
 };
 #define ACTION_USAGE_SYSTEM(id)         ACTION(ACT_USAGE, PAGE_SYSTEM<<10 | (id))
 #define ACTION_USAGE_CONSUMER(id)       ACTION(ACT_USAGE, PAGE_CONSUMER<<10 | (id))
+#define ACTION_USAGE_APPLE(id)          ACTION(ACT_USAGE, PAGE_APPLE<<10 | (id))
 #define ACTION_MOUSEKEY(key)            ACTION(ACT_MOUSEKEY, key)
 
 

@@ -136,6 +136,9 @@ static action_t keycode_to_action(uint8_t keycode)
         case KC_AUDIO_MUTE ... KC_MEDIA_REWIND:
             action.code = ACTION_USAGE_CONSUMER(KEYCODE2CONSUMER(keycode));
             break;
+        case KC_APPLE_KEYBOARDFN ... KC_APPLE_RESERVED_MOUSEDATA:
+            action.code = ACTION_USAGE_APPLE(KEYCODE2APPLE(keycode));
+            break;
         case KC_MS_UP ... KC_MS_ACCEL2:
             action.code = ACTION_MOUSEKEY(keycode);
             break;

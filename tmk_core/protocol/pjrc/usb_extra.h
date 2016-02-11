@@ -40,6 +40,7 @@
 #define EXTRA_BUFFER		EP_DOUBLE_BUFFER
 
 
+int8_t usb_extra_apple_send(uint16_t bits);
 int8_t usb_extra_consumer_send(uint16_t bits);
 int8_t usb_extra_system_send(uint16_t bits);
 

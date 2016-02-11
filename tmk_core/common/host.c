@@ -30,6 +30,7 @@ bool keyboard_nkro = true;
 static host_driver_t *driver;
 static uint16_t last_system_report = 0;
 static uint16_t last_consumer_report = 0;
+static uint16_t last_apple_report = 0;
 
 
 void host_set_driver(host_driver_t *d)
@@ -86,6 +87,15 @@ void host_consumer_send(uint16_t report)
     (*driver->send_consumer)(report);
 }
 
+void host_apple_send(uint16_t report)
+{
+    if (report == last_apple_report) return;
+    last_apple_report = report;
+
+    if (!driver) return;
+    (*driver->send_apple)(report);
+}
+
 uint16_t host_last_sysytem_report(void)
 {
     return last_system_report;
@@ -94,4 +104,9 @@ uint16_t host_last_sysytem_report(void)
 uint16_t host_last_consumer_report(void)
 {
     return last_consumer_report;
+}
+
+uint16_t host_last_apple_report(void)
+{
+    return last_apple_report;
 }

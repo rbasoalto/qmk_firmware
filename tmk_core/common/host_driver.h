@@ -28,6 +28,7 @@ typedef struct {
     void (*send_mouse)(report_mouse_t *);
     void (*send_system)(uint16_t);
     void (*send_consumer)(uint16_t);
+    void (*send_apple)(uint16_t);
 } host_driver_t;
 
 #endif

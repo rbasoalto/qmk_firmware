@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define IS_SPECIAL(code)         ((0xA5 <= (code) && (code) <= 0xDF) || (0xE8 <= (code) && (code) <= 0xFF))
 #define IS_SYSTEM(code)          (KC_PWR       <= (code) && (code) <= KC_WAKE)
 #define IS_CONSUMER(code)        (KC_MUTE      <= (code) && (code) <= KC_WFAV)
+#define IS_APPLE(code)           (KC_APPLE_KEYBOARDFN <= (code) && (code) <= KC_APPLE_RESERVED_MOUSEDATA)
 #define IS_FN(code)              (KC_FN0       <= (code) && (code) <= KC_FN31)
 #define IS_MOUSEKEY(code)        (KC_MS_UP     <= (code) && (code) <= KC_MS_ACCEL2)
 #define IS_MOUSEKEY_MOVE(code)   (KC_MS_UP     <= (code) && (code) <= KC_MS_RIGHT)
@@ -158,6 +159,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KC_WFAV KC_WWW_FAVORITES
 /* Jump to bootloader */
 #define KC_BTLD KC_BOOTLOADER
+/* Apple Specific */
+#define KC_APFN KC_APPLE_KEYBOARDFN
+#define KC_APBU KC_APPLE_BRIGHTNESSUP
+#define KC_APBD KC_APPLE_BRIGHTNESSDOWN
+#define KC_APVM KC_APPLE_VIDEOMIRROR
+#define KC_APIT KC_APPLE_ILLUMINATIONTOGGLE
+#define KC_APIU KC_APPLE_ILLUMINATIONUP
+#define KC_APID KC_APPLE_ILLUMINATIONDOWN
+#define KC_APMD KC_APPLE_RESERVED_MOUSEDATA
 /* Transparent */
 #define KC_TRANSPARENT  1
 #define KC_TRNS KC_TRANSPARENT
@@ -449,6 +459,7 @@ enum internal_special_keycodes {
     KC_FN14,
     KC_FN15,
 
+#if 0
     KC_FN16             = 0xD0,
     KC_FN17,
     KC_FN18,
@@ -465,6 +476,16 @@ enum internal_special_keycodes {
     KC_FN29,
     KC_FN30,
     KC_FN31,            /* 0xDF */
+#else
+    KC_APPLE_KEYBOARDFN = 0xD0,
+    KC_APPLE_BRIGHTNESSUP,
+    KC_APPLE_BRIGHTNESSDOWN,
+    KC_APPLE_VIDEOMIRROR,
+    KC_APPLE_ILLUMINATIONTOGGLE,
+    KC_APPLE_ILLUMINATIONUP,
+    KC_APPLE_ILLUMINATIONDOWN,
+    KC_APPLE_RESERVED_MOUSEDATA, /* 0xD7 */
+#endif
 
     /**************************************/
     /* 0xE0-E7 for Modifiers. DO NOT USE. */
