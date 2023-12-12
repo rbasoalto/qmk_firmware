@@ -16,7 +16,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * | esc    |   1  |   2  |   3  |   4  |   5  |  `~  |           |  \|  |   6  |   7  |   8  |   9  |   0  |   =+   |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * | Tab    |   Q  |   W  |   F  |   P  |   G  |(Ralt)|           |(Ralt)|   J  |   L  |   U  |   Y  |  ;:  |   -_   |
- * |--------+------+------+------+------+------| Caps |           | Del  |------+------+------+------+------+--------|
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * | LCtrl  |   A  |   R  |   S  |   T  |   D  |------|           |------|   H  |   N  |   E  |   I  |   O  |   '"   |
  * |--------+------+------+------+------+------| LCmd |           | RCmd |------+------+------+------+------+--------|
  * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   K  |   M  |  ,<  |  .>  |  /?  | RShift |
@@ -24,7 +24,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   | ~SY  | Del  | Lalt | Left | Right|                                       |  Up  | Down |  [{  |  ]}  | ~MD  |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
- *                                        | Lalt | SY/PS|       |MD/ins| Ralt |
+ *                                        | Caps | Pscr |       | Ins  | Del  |
  *                                 ,------|------|------|       |------+------+------.
  *                                 |      |      | Home |       | PgUp |      |      |
  *                                 | Space| Bksp |------|       |------| Tab  |Enter |
@@ -36,22 +36,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [QWER] = LAYOUT_ergodox(  // layer 0 : default (HW qwerty)
         // left hand
         KC_ESC,     KC_1,       KC_2,       KC_3,       KC_4,       KC_5,       KC_GRV,
-        KC_TAB,     KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,       RALT_T(KC_CAPS),
+        KC_TAB,     KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,       KC_RALT,
         KC_LCTL,    KC_A,       KC_S,       KC_D,       KC_F,       KC_G,
         KC_LSFT,    KC_Z,       KC_X,       KC_C,       KC_V,       KC_B,       KC_LGUI,
         TT(SYMB),   KC_DEL,     KC_LALT,    KC_LEFT,    KC_RIGHT,
-                                                                    KC_LALT,    LT(SYMB,KC_PSCR),
+                                                                    KC_CAPS,    KC_PSCR,
                                                                                 KC_HOME,
                                                         KC_SPC,     KC_BSPC,    KC_END,
         // right hand
         KC_BSLS,        KC_6,       KC_7,       KC_8,       KC_9,       KC_0,       KC_EQL,
-        RALT_T(KC_DEL), KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,       KC_MINUS,
+        KC_RALT,        KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,       KC_MINUS,
                         KC_H,       KC_J,       KC_K,       KC_L,       KC_SCLN,    KC_QUOT,
         KC_RGUI,        KC_N,       KC_M,       KC_COMM,    KC_DOT,     KC_SLSH,    KC_RSFT,
                                     KC_UP,      KC_DOWN,    KC_LBRC,    KC_RBRC,    TT(MDIA),
-        LT(MDIA,KC_INS),   KC_RALT,
+        KC_INS,       KC_DEL,
         KC_PGUP,
-        KC_PGDN,        KC_TAB,     KC_ENT
+        KC_PGDN,      KC_TAB,      KC_ENT
     ),
 [COLE] = LAYOUT_ergodox(  // layer 1 : Colemak
         // left hand
