@@ -133,7 +133,7 @@
         "led_matrix": true,
         "unicode": true,
         "swap_hands": true,
-        "sleep_led": true,
+        "sleep_led": false,
         "st7565": true
     },
     "qmk": {

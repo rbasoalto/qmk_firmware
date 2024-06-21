@@ -66,6 +66,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    define SPI_MOSI_PAL_MODE PAL_MODE_ALTERNATIVE_2
 #    define SPI_MISO_PIN A4  // Just an unused pin, the "normal" MISO pin (C7) is used for other things
 #    define SPI_MISO_PAL_MODE PAL_MODE_ALTERNATIVE_7  // Default for A4
+
+/* Split Sync */
+#    define SPLIT_ST7565_ENABLE
 #endif
 
 /*
@@ -83,3 +86,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define NO_ACTION_LAYER
 //#define NO_ACTION_TAPPING
 //#define NO_ACTION_ONESHOT
+//
+#define EE_HANDS
+
+// Workaround for desync
+// https://github.com/qmk/qmk_firmware/issues/19420#issuecomment-1372134274
+#define usb_lld_disconnect_bus(usbp) do {} while(0)
+
+// More split thingies
+#define SPLIT_POINTING_ENABLE
+#define SPLIT_LED_STATE_ENABLE
+#define SPLIT_LAYER_STATE_ENABLE
