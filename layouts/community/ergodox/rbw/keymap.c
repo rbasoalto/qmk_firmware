@@ -4,8 +4,9 @@
 #include "action_layer.h"
 
 #ifdef KEYBOARD_ergodox_infinity
-#include "visualizer/lcd_backlight.h"
+#include "ergodox_infinity.h"
 #endif
+
 
 #include "rbw_defs.h"
 
@@ -211,4 +212,52 @@ void matrix_scan_user(void) {
         // HW Colemak or Rcolemak is on
         ergodox_right_led_3_on();
     }
-};
+}
+
+#ifdef ST7565_ENABLE
+void st7565_task_user(void) {
+    static char layer_text[64];
+    char* text_ptr = layer_text;
+    if (layer_state & (1<<RCOL)) {
+        // HW REVERSE colemak over base normal layer
+        strcpy(text_ptr, "RCol");
+        text_ptr += 4;
+        ergodox_infinity_lcd_color(0,0,UINT16_MAX/2);
+    } else if (layer_state & (1<<COLE)) {
+        // HW Colemak over normal base layer
+        strcpy(text_ptr, "Col");
+        text_ptr += 3;
+        ergodox_infinity_lcd_color(0,0,UINT16_MAX/2);
+    } else {
+        // HW QWERTY (base layer)
+        strcpy(text_ptr, "QW");
+        text_ptr += 2;
+        ergodox_infinity_lcd_color(UINT16_MAX/2,UINT16_MAX/2,UINT16_MAX/2);
+    }
+    if (layer_state & (1<<SYMB)) {
+        ergodox_infinity_lcd_color(UINT16_MAX/2,0,0);
+        strcpy(text_ptr, " + SYMB");
+        text_ptr += 7;
+    }
+
+    if (layer_state & (1<<MDIA)) {
+        ergodox_infinity_lcd_color(0,UINT16_MAX/2,0);
+        strcpy(text_ptr, " + MEDIA");
+        text_ptr += 8;
+    }
+
+    *text_ptr = '\0';
+    st7565_clear();
+    st7565_set_cursor(0,0);
+    st7565_write(layer_text, /*invert=*/false);
+
+    st7565_advance_page(/*clearPageRemainder=*/true);
+
+    led_t leds = host_keyboard_led_state();
+    if(leds.num_lock) { st7565_write("Num ", false); }
+    if(leds.caps_lock) { st7565_write("Cap ", false); }
+    if(leds.scroll_lock) { st7565_write("Scr ", false); }
+    if(leds.compose) { st7565_write("Com ", false); }
+    if(leds.kana) { st7565_write("Kana", false); }
+}
+#endif  // ST7565_ENABLE

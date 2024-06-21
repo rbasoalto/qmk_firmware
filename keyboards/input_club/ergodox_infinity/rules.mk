@@ -1,1 +1,2 @@
 SERIAL_DRIVER = usart
+SLEEP_LED_ENABLE = no
