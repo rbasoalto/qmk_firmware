@@ -5,7 +5,7 @@
 #include "eeprom.h"
 
 enum planck_keycodes {
-  RGB_SLD = EZ_SAFE_RANGE,
+  RGB_SLD = SAFE_RANGE,
   QWERTY,
   COLEMAK,
 };
@@ -26,7 +26,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE_QWERTY] = LAYOUT_planck_grid(                                                                             //
         KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_RGUI,                                 //
         KC_LCTL, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT,                             //
-        KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RALT,                        //
+        KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSFT,                        //
         TT(_LOWER), KC_LEFT, KC_RGHT, KC_LALT, KC_BSPC, KC_SPC, KC_NO, KC_ENT, KC_TAB, KC_UP, KC_DOWN, TT(_RAISE)),
 
     [_BASE_COLEMAK] = LAYOUT_planck_grid(                                                                           //
@@ -49,21 +49,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_ADJUST] = LAYOUT_planck_grid(                                                                                            //
         KC_TRNS, QWERTY,  COLEMAK, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, //
-        KC_TRNS, KC_TRNS, AU_ON,   AU_OFF,  AU_TOG,  KC_TRNS, LED_LEVEL,          RGB_TOG, RGB_VAI, RGB_VAD, KC_TRNS, RESET,   //
-        KC_TRNS, KC_TRNS, MU_ON,   MU_OFF,  MU_TOG,  KC_TRNS, TOGGLE_LAYER_COLOR, RGB_MOD, RGB_HUI, RGB_HUD, KC_TRNS, KC_TRNS, //
+        KC_TRNS, KC_TRNS, AU_ON,   AU_OFF,  AU_TOGG,  KC_TRNS, LED_LEVEL,          RGB_TOG, RGB_VAI, RGB_VAD, KC_TRNS, QK_BOOT,   //
+        KC_TRNS, KC_TRNS, MU_ON,   MU_OFF,  MU_TOGG,  KC_TRNS, TOGGLE_LAYER_COLOR, RGB_MOD, RGB_HUI, RGB_HUD, KC_TRNS, KC_TRNS, //
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO,              KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS),
 
 };
 // clang-format on
 
-extern bool g_suspend_state;
 extern rgb_config_t rgb_matrix_config;
 
 void keyboard_post_init_user(void) { rgb_matrix_enable(); }
 
-
 // clang-format off
-const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
+const uint8_t PROGMEM ledmap[][RGB_MATRIX_LED_COUNT][3] = {
     [0] = {{0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF},
            {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF},
            {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF}, {0x00, 0x00, 0xFF},
@@ -93,7 +91,7 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
 // clang-format on
 
 void set_layer_color(int layer) {
-  for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+  for (int i = 0; i < RGB_MATRIX_LED_COUNT; i++) {
     HSV hsv = {
         .h = pgm_read_byte(&ledmap[layer][i][0]),
         .s = pgm_read_byte(&ledmap[layer][i][1]),
@@ -109,9 +107,9 @@ void set_layer_color(int layer) {
   }
 }
 
-void rgb_matrix_indicators_user(void) {
-  if (g_suspend_state || keyboard_config.disable_layer_led) {
-    return;
+bool rgb_matrix_indicators_user(void) {
+  if (keyboard_config.disable_layer_led) {
+    return false;
   }
   switch (biton32(layer_state)) {
     case 0:
@@ -131,6 +129,7 @@ void rgb_matrix_indicators_user(void) {
         rgb_matrix_set_color_all(0, 0, 0);
       break;
   }
+  return true;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -228,6 +227,6 @@ bool music_mask_user(uint16_t keycode) {
   }
 }
 
-uint32_t layer_state_set_user(uint32_t state) {
+layer_state_t layer_state_set_user(layer_state_t state) {
   return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }
